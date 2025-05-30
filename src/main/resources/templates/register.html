@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head><title>Qeydiyyat</title></head>
+<body>
+<h2>Qeydiyyat</h2>
+<form th:action="@{/auth/register}" th:object="${user}" method="post">
+    <label>İstifadəçi adı: <input type="text" th:field="*{name}" /></label><br/>
+    <label>İstifadəçi emaili: <input type="text" th:field="*{email}" /></label><br/>
+    <label>Şifrə: <input type="password" th:field="*{password}" /></label><br/>
+    <button type="submit">Qeydiyyatdan keç</button>
+</form>
+<p th:if="${error}" th:text="${error}" style="color:red;"></p>
+<p>Artıq hesabın var? <a th:href="@{/auth/login}">Giriş et</a></p>
+</body>
+</html>

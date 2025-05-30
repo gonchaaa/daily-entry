@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>İndeks</title>
+</head>
+<body>
+<h2>Xoş gəlmisən!</h2>
+<h3 id="username">Yüklənir...</h3>
+
+<script>
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+        document.getElementById("username").textContent = "Giriş tələb olunur.";
+    } else {
+        fetch("/auth/me", {
+            method: "GET",
+            headers: {
+                "Authorization": "Bearer " + token
+            }
+        })
+        .then(res => {
+            if (!res.ok) throw new Error("Token etibarsızdır");
+            return res.json();
+        })
+        .then(data => {
+            document.getElementById("username").textContent = "İstifadəçi: " + data.username;
+        })
+        .catch(err => {
+            document.getElementById("username").textContent = "Giriş tələb olunur.";
+        });
+    }
+</script>
+</body>
+</html>
