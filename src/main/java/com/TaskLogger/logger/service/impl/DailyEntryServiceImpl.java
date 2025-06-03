@@ -1,24 +1,21 @@
 package com.TaskLogger.logger.service.impl;
 
 import com.TaskLogger.logger.DTOs.DailyEntryResponseDTO;
-import com.TaskLogger.logger.DTOs.UserLoginResponseDTO;
 import com.TaskLogger.logger.DTOs.request.DailyEntryRequestDTO;
-import com.TaskLogger.logger.DTOs.request.UserLoginRequestDTO;
-import com.TaskLogger.logger.DTOs.request.UserRegisterRequestDTO;
 import com.TaskLogger.logger.entity.DailyEntry;
 import com.TaskLogger.logger.entity.User;
 import com.TaskLogger.logger.enums.Status;
 import com.TaskLogger.logger.repository.DailyEntryRepository;
 import com.TaskLogger.logger.repository.UserRepository;
-import com.TaskLogger.logger.service.IAuthService;
 import com.TaskLogger.logger.service.IDailyEntryService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -74,7 +71,7 @@ public class DailyEntryServiceImpl implements IDailyEntryService {
         List<DailyEntry> entries = dailyEntryRepository.findByUserAndDateBetween(user, entryDate, currentDate);
 
         StringBuilder content = new StringBuilder("Heftelik mail");
-
+        System.out.println(entries);
         for (DailyEntry entry : entries){
             content.append("Date :").append(entry.getDate()).append("\n");
             content.append("Status :").append(entry.getStatus()).append("\n");
@@ -83,4 +80,33 @@ public class DailyEntryServiceImpl implements IDailyEntryService {
         }
     return content.toString();
     }
+    @Override
+    public List<DailyEntry> getEntriesForUserBetweenDates(User user, LocalDate start, LocalDate end) {
+        return dailyEntryRepository.findByUserAndDateBetween(user, start, end);
+    }
+
+    @Override
+    public String summaryEntriesByEmail(String email) {
+        System.out.println("Axtarılan email: " + email);
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+        return summaryEntries(user.getId());
+    }
+    @Override
+    public String summaryEntriesByAuthenticatedUser() {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String username;
+
+        if (principal instanceof UserDetails) {
+            username = ((UserDetails) principal).getUsername();
+        } else {
+            username = principal.toString();
+        }
+
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        return summaryEntries(user.getId());
+    }
+
 }

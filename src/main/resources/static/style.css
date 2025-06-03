@@ -1,0 +1,15 @@
+.title-input{
+width: 30%;
+  height: 50px;
+  font-size: 24px;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+.textarea{
+width:50%;
+  height: 200px;
+  font-size: 18px;
+  padding: 10px;
+  box-sizing: border-box;
+}

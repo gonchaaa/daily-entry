@@ -1,0 +1,10 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head><title>Home</title></head>
+<body>
+<h2>Xoş gəldiniz, <span th:text="${username}">istifadəçi</span>!</h2>
+<a th:href="@{/daily}">Create mail</a>
+<a th:href="@{/logout}">Logout</a>
+</body>
+</html>
+
