@@ -1,5 +1,7 @@
 function renderEntryList(entries) {
     const list = document.getElementById("entryList");
+    const head = document.getElementById("entry-head");
+    head.style.display = entries.length > 0 ? "block" : "none";
     list.innerHTML = "";
     entries.forEach(entry => {
         const li = document.createElement("li");
@@ -21,8 +23,7 @@ function saveEntry() {
     const entry = {
         date: reportDate,
         title: reportTitle,
-        description: reportDescription,
-        status: "PENDING"
+        description: reportDescription
     };
 
     const entries = JSON.parse(localStorage.getItem("entries")) || [];
@@ -43,8 +44,8 @@ function saveEntry() {
 function showSummary() {
     const entries = JSON.parse(localStorage.getItem("entries")) || [];
 
-    if (entries.length < 5) {
-        alert("You must have 5 daily entries before sending.");
+    if (entries.length < 1) {
+        alert("You must have 1 daily entries before sending.");
         return;
     }
 

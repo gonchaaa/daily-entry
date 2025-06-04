@@ -43,6 +43,7 @@ public class DailyEntryServiceImpl implements IDailyEntryService {
         dailyEntry.setStatus(Status.PENDING);
         DailyEntry savedEntry =  dailyEntryRepository.save(dailyEntry);
         modelMapper.map(savedEntry,dailyEntryResponseDTO);
+        System.out.println("User ID: " + user.getId() + " Email: " + user.getEmail());
 
         return dailyEntryResponseDTO;
     }

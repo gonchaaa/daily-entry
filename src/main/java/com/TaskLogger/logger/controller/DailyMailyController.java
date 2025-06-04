@@ -33,33 +33,40 @@ public class DailyMailyController {
     @ResponseBody
     public String saveEntry(@RequestBody DailyEntryRequestDTO request,
                             @AuthenticationPrincipal UserDetails userDetails){
-        User user = new User();
-        user.setEmail(userDetails.getUsername());
+        System.out.println(userDetails);
+        User user = userRepository.findByEmail(userDetails.getUsername())
+                .orElseThrow(() -> new RuntimeException("User not found"));
         dailyEntryService.createDailyEntry(request, user);
         return "Saved";
     }
 
+
     @GetMapping("/daily/summary")
     @ResponseBody
     public String getSummary(@AuthenticationPrincipal UserDetails userDetails) {
+        System.out.println(userDetails);
         System.out.println("Fetching summary for user: " + userDetails.getUsername());
         return dailyEntryService.summaryEntriesByAuthenticatedUser();
     }
 
-    @PostMapping("/daily/summary")
-    public ResponseEntity<String> receiveEntriesAndSummarize(@RequestBody List<DailyEntryRequestDTO> entriesDto,
-                                                             @AuthenticationPrincipal UserDetails userDetails) {
-        User user = userRepository.findByEmail(userDetails.getUsername())
-                .orElseThrow(() -> new RuntimeException("User not found"));
+        @PostMapping("/daily/summary")
+        @ResponseBody
+        public ResponseEntity<String> receiveEntriesAndSummarize(@RequestBody List<DailyEntryRequestDTO> entriesDto,
+                                                                 @AuthenticationPrincipal UserDetails userDetails) {
+            System.out.println("metod isledi");
+            System.out.println(userDetails);
+            User user = userRepository.findByEmail(userDetails.getUsername())
+                    .orElseThrow(() -> new RuntimeException("User not found"));
 
-        for (DailyEntryRequestDTO dto : entriesDto) {
-            dailyEntryService.createDailyEntry(dto, user);
+            for (DailyEntryRequestDTO dto : entriesDto) {
+                dailyEntryService.createDailyEntry(dto, user);
+            }
+
+            String summary = dailyEntryService.summaryEntries(user.getId());
+
+            System.out.println("Summary generated: " + summary);
+            return ResponseEntity.ok(summary);
         }
-
-        String summary = dailyEntryService.summaryEntries(user.getId());
-
-        return ResponseEntity.ok(summary);
-    }
 
 
 

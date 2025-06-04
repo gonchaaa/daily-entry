@@ -6,26 +6,26 @@
     <link rel="stylesheet" th:href="@{/style.css}">
 </head>
 <body>
+<div class="container">
 
-<h1>Daily Report Page</h1>
 
-<input type="date" class="title-input" id="reportDate" placeholder="Enter report date (YYYY-MM-DD)" />
+<h2>Daily Report Page</h2>
+
+<input type="date" class="date-input" id="reportDate" placeholder="Enter report date (YYYY-MM-DD)" />
 <br>
- <input type="text" id="reportTitle" placeholder="Enter report title" />
+ <input type="text" class="title-input" id="reportTitle" placeholder="Enter report title" />
 <br>
 <textarea id="reportDescription" class="textarea"></textarea>
-
+<br>
 <button onclick="saveEntry()">Save</button>
 <button onclick="showSummary()">Topla</button>
 
 
-<h2>Your Entries</h2>
+<h3 id="entry-head">Your Entries</h3>
 <ul id="entryList"></ul>
 
-
-<h2>Mailleri topla</h2>
 <div id="summary"></div>
-
+</div>
 <script th:src="@{/index.js}"></script>
 
 </body>

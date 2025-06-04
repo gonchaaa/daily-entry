@@ -24,6 +24,16 @@ public class DailyEntry {
     private Status status;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id",nullable = false)
     private User user;
+
+    @Override
+    public String toString() {
+        return "DailyEntry{" +
+                "id=" + id +
+                ", date=" + date +
+                ", userId=" + (user != null ? user.getId() : null) +
+                '}';
+    }
+
 }
