@@ -3,7 +3,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Daily Report</title>
-    <link rel="stylesheet" th:href="@{/style.css}">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
 <div class="container">
@@ -15,6 +15,11 @@
 <br>
  <input type="text" class="title-input" id="reportTitle" placeholder="Enter report title" />
 <br>
+    <select id="status">
+        <option value="PENDING">PENDING</option>
+        <option value="DONE">DONE</option>
+    </select>
+    <br>
 <textarea id="reportDescription" class="textarea"></textarea>
 <br>
 <button onclick="saveEntry()">Save</button>

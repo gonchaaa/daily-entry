@@ -5,7 +5,7 @@ function renderEntryList(entries) {
     list.innerHTML = "";
     entries.forEach(entry => {
         const li = document.createElement("li");
-        li.textContent = `${entry.date}: ${entry.title} - ${entry.description}`;
+        li.textContent = `${entry.date}: ${entry.title} - ${entry.description} - ${entry.status}`;
         list.appendChild(li);
     });
 }
@@ -14,6 +14,8 @@ function saveEntry() {
     const reportDate = document.getElementById("reportDate").value;
     const reportTitle = document.getElementById("reportTitle").value;
     const reportDescription = document.getElementById("reportDescription").value;
+    const status = document.getElementById("status");
+
 
     if (!reportTitle || !reportDescription || !reportDate) {
         alert("Please fill in all fields.");
@@ -23,7 +25,8 @@ function saveEntry() {
     const entry = {
         date: reportDate,
         title: reportTitle,
-        description: reportDescription
+        description: reportDescription,
+        status: status.value || "PENDING"
     };
 
     const entries = JSON.parse(localStorage.getItem("entries")) || [];

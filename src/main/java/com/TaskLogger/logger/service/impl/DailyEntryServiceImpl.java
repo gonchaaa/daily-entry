@@ -25,14 +25,6 @@ public class DailyEntryServiceImpl implements IDailyEntryService {
     private final ModelMapper modelMapper;
     private final UserRepository userRepository;
 
-    @Override
-    public DailyEntryResponseDTO getDailyEntryById(Long id) {
-
-        DailyEntry dailyEntry = dailyEntryRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("DailyEntry not found with id: " + id));
-
-        return modelMapper.map(dailyEntry, DailyEntryResponseDTO.class);
-    }
 
     @Override
     public DailyEntryResponseDTO createDailyEntry(DailyEntryRequestDTO dailyEntryRequestDTO, User user) {
@@ -40,7 +32,7 @@ public class DailyEntryServiceImpl implements IDailyEntryService {
         DailyEntry dailyEntry = new DailyEntry();
         modelMapper.map(dailyEntryRequestDTO,dailyEntry);
         dailyEntry.setUser(user);
-        dailyEntry.setStatus(Status.PENDING);
+        dailyEntry.setStatus(dailyEntryRequestDTO.getStatus());
         DailyEntry savedEntry =  dailyEntryRepository.save(dailyEntry);
         modelMapper.map(savedEntry,dailyEntryResponseDTO);
         System.out.println("User ID: " + user.getId() + " Email: " + user.getEmail());
@@ -48,20 +40,6 @@ public class DailyEntryServiceImpl implements IDailyEntryService {
         return dailyEntryResponseDTO;
     }
 
-    @Override
-    public DailyEntryResponseDTO updateDailyEntry(Long id, DailyEntryRequestDTO dailyEntryRequestDTO) {
-        DailyEntry dailyEntry = dailyEntryRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("DailyEntry not found with id: " + id));
-        DailyEntryResponseDTO dailyEntryResponseDTO = new DailyEntryResponseDTO();
-        dailyEntry.setStatus(dailyEntryRequestDTO.getStatus());
-        dailyEntry.setDescription(dailyEntryRequestDTO.getDescription());
-        dailyEntry.setDate(dailyEntryRequestDTO.getDate());
-        dailyEntry.setTitle(dailyEntryRequestDTO.getTitle());
-        DailyEntry updatedEntry = dailyEntryRepository.save(dailyEntry);
-        modelMapper.map(updatedEntry,dailyEntryResponseDTO);
-
-        return dailyEntryResponseDTO;
-    }
 
     @Override
     public String summaryEntries(Long id) {

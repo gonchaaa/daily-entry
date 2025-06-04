@@ -1,16 +1,21 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head><title>Login</title></head>
+<head>
+    <title>Login</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
 <body>
+<div class="container">
 <h2>Login</h2>
 <form th:action="@{/login}" method="post">
-    Username: <input type="text" name="username" /><br/>
-    Password: <input type="password" name="password" /><br/>
-    <label>
-        <input type="checkbox" name="remember-me"/> Remember me
-    </label>
+    Email: <input class="auth-input" type="text" name="username" /><br/>
+    Password: <input class="auth-input" type="password" name="password" /><br/>
+<!--    <label>-->
+<!--        <input type="checkbox" name="remember-me"/> Remember me-->
+<!--    </label>-->
     <button type="submit">Login</button>
 </form>
+</div>
 </body>
 </html>
 

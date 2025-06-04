@@ -9,9 +9,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 public interface IDailyEntryService {
-    DailyEntryResponseDTO getDailyEntryById(Long id);
     DailyEntryResponseDTO createDailyEntry(DailyEntryRequestDTO dailyEntryRequestDTO, User user);
-    DailyEntryResponseDTO updateDailyEntry(Long id, DailyEntryRequestDTO dailyEntryRequestDTO);
     String summaryEntries(Long id);
     List<DailyEntry> getEntriesForUserBetweenDates(User user, LocalDate start, LocalDate end);
     String summaryEntriesByEmail(String email);
